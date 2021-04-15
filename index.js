@@ -23,17 +23,40 @@ for (let i = 0; i < 1; i++) {
   // console.log(typeof(x))
   placeCharacter(x, y, "O", userOneBoard);
   x = prompt("Enter the x coordinate for your ship number " + shipNumber);
-   y = prompt("Enter dcgnthe y coordinate for your ship number " + shipNumber);
+  y = prompt("Enter dcgnthe y coordinate for your ship number " + shipNumber);
   placeCharacter(x, y, "O", userTwoBoard);
   drawBreak();
+  console.log("USER ONE BOARD");
   displayGrid(userOneBoard);
+  console.log("COMPUTER BOARD");
   displayGrid(userTwoBoard);
 }
 
-
 while (userOneHitCount > 0 && userTwoHitCount > 0) {
-   x = prompt('Enter the x coordinate for your attack');
-   y = prompt('Enter the y coordinate for your attack');
+  x = prompt("Enter the x coordinate for your attack");
+  y = prompt("Enter the y coordinate for your attack");
+
+  if (attack(x, y, userTwoBoard)) {
+    userOneHitCount--;
+  }
+  x = getRandomInt(boardSize);
+  y = getRandomInt(boardSize);
+
+  if (userTwoHitCount > 0 && attack(x, y, userOneBoard)) {
+    userTwoHitCount--;
+  }
+
+  drawBreak();
+  console.log("USER ONE BOARD");
+  displayGrid(userOneBoard);
+  console.log("COMPUTER BOARD");
+  displayGrid(userTwoBoard);
+}
+
+if (userOneHitCount < userTwoHitCount) {
+  console.log("you won this game!!!");
+} else {
+  console.log("computer won this game!!!");
 }
 
 function createBoard(dimension) {
@@ -53,7 +76,7 @@ function displayGrid(grid) {
   for (let i = 0; i < grid.length; i++) {
     let rows = i + " ";
     for (let cell of grid[i]) {
-      if (cell === "Ship") {
+      if (cell === "ship") {
         rows += "- ";
       } else {
         rows += cell + " ";
@@ -70,9 +93,6 @@ function columnHeading(size) {
   }
   return result;
 }
-
-
-
 
 function placeCharacter(x, y, c, grid) {
   let i = parseInt(x);
@@ -98,9 +118,9 @@ function placeCharacter(x, y, c, grid) {
     //   placeCharacter(x, y, 'O', userOneBoard);
     // }
     if (upDown === "U") {
-      console.log(grid[i][j] === "-");
-      console.log(grid[i - 1][j] === "-");
-      console.log(grid[i - 2][j] === "-");
+      // console.log(grid[i][j] === "-");
+      // console.log(grid[i - 1][j] === "-");
+      // console.log(grid[i - 2][j] === "-");
       // try{
       if (
         grid[i][j] === "-" &&
@@ -147,12 +167,12 @@ function placeCharacter(x, y, c, grid) {
 
       if (
         grid[i][j] === "-" &&
-        grid[i - 1][j] === "-" &&
-        grid[i - 2][j] === "-"
+        grid[i][j - 1] === "-" &&
+        grid[i][j - 2] === "-"
       ) {
         grid[i][j] = c;
-        grid[i - 1][j] = c;
-        grid[i - 2][j] = c;
+        grid[i][j - 1] = c;
+        grid[i][j - 2] = c;
       } else {
         console.log("invalid value, ship can't be placed here");
       }
@@ -160,8 +180,8 @@ function placeCharacter(x, y, c, grid) {
     if (side === "R") {
       if (
         grid[i][j] === "-" &&
-        grid[i + 1][j] === "-" &&
-        grid[i + 2][j] === "-"
+        grid[i][j + 1] === "-" &&
+        grid[i][j + 2] === "-"
       ) {
         grid[i][j] = c;
         grid[i][j + 1] = c;
@@ -171,6 +191,10 @@ function placeCharacter(x, y, c, grid) {
       }
     }
   }
+}
+
+function getRandomInt(max) {
+  return Math.floor(Math.random() * Math.floor(max));
 }
 
 function attack(x, y, grid) {
