@@ -25,7 +25,6 @@ function gameSetup() {
                 placeCharacter(x, y, 'O', userBoard);
             }
             enemy('O', enemyBoard, enemyBoardSize);
-            //enemy((x, y, 'O', enemyBoard);
             drawBreak();
             printGrid(enemyBoard, true);
             printGrid(userBoard);
@@ -45,8 +44,8 @@ while (enemyAttacks > 0 && userAttacks > 0) {
     if (attack(x, y, enemyBoard)) {
         enemyAttacks--;
     }
-    x = getRandomInt(userGridSize);
-    y = getRandomInt(userGridSize);
+    x = getRandomInt(userBoardSize);
+    y = getRandomInt(userBoardSize);
     if (enemyAttacks > 0 && attack(x, y, userBoard)) {
         userAttacks--;
     }
@@ -114,9 +113,8 @@ function placeCharacter(x, y, c, grid) {
         grid[parseInt(y)][parseInt(x) - 1] = c;
         grid[parseInt(y)][parseInt(x) - 2] = c;
     }
-    //right
-    //if (leftRightShipPosition.toLowerCase() === "right" && leftRightShipPosition.toLowerCase() == "")
     else {
+        //right
         grid[parseInt(y)][parseInt(x) + 1] = c;
         grid[parseInt(y)][parseInt(x) + 2] = c;
     }
@@ -141,13 +139,23 @@ function placeCharacterVertical(x, y, c, grid) {
 
 //enemy
 function enemy(c, grid, max) {
-    c = 'e';
     let didPlace = false;
     while (!didPlace) {
-        let x = getRandomInt(max);
-        let y = getRandomInt(max);
+        let x = prompt('Enter the x coordinate for your ship placement of enemy');
+        let y = prompt('Enter the y coordinate for your ship placement of enemy');
         if (!enemyLocations[`${x}-${y}`]) {
-            placeCharacter(x, y, c, grid);
+            if (enemyBoardSize >= x && enemyBoardSize >= y) {
+                let userShipView = prompt('Enter "yes" if, you want ship vertically otherwise enter "no"');
+                if (userShipView.toLowerCase() === 'yes' && userShipView !== " " && userShipView.toLowerCase() !== "no") {
+                    placeCharacterVertical(x, y, c, grid);
+                } else {
+                    placeCharacter(x, y, c, grid);
+                }
+            } else {
+                alert('Your coordinate value is wrong please enter correct coordinate');
+                enemy('O', enemyBoard, enemyBoardSize);
+            }
+            //placeCharacter(x, y, c, grid);
             didPlace = true;
             enemyLocations[`${x}-${y}`] = true;
         }
