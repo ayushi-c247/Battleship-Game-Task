@@ -6,32 +6,36 @@ let userOneHitCount = 3; // if hit reaches 0 then print message of who wins the 
 let userTwoHitCount = 3;
 // let myGrid = createBoard(boardSize);
 
-// drawBreak();
+drawBreak();
 displayGrid(userOneBoard);
 displayGrid(userTwoBoard);
-
+gameSetup();
 // createBoard(myGrid);
-
-for (let i = 0; i < 1; i++) {
-  let index = parseInt(i);
-  let shipNumber = index + 1;
-  // console.log(typeof(index))
-  let x = prompt("Enter the x coordinate for your ship number " + shipNumber);
-  let y = prompt(
-    "Enter dcgnthe y coordinate for your ship number " + shipNumber
-  );
-  // console.log(typeof(x))
-  placeCharacter(x, y, "O", userOneBoard);
-  x = prompt("Enter the x coordinate for your ship number " + shipNumber);
-  y = prompt("Enter dcgnthe y coordinate for your ship number " + shipNumber);
-  placeCharacter(x, y, "O", userTwoBoard);
-  drawBreak();
-  console.log("USER ONE BOARD");
-  displayGrid(userOneBoard);
-  console.log("COMPUTER BOARD");
-  displayGrid(userTwoBoard);
+function gameSetup() {
+  for (let i = 0; i < 1; i++) {
+    let index = parseInt(i);
+    let shipNumber = index + 1;
+    // console.log(typeof(index))
+    let x = prompt(`Enter the x coordinate for your ship number ${shipNumber}`);
+    let y = prompt(`Enter the y coordinate for your ship number ${shipNumber}`);
+    let Ordinate1 = parseInt(x);
+    let Ordinate2 = parseInt(y);
+    if (boardSize >= Ordinate1 && boardSize >= Ordinate2) {
+      // console.log(typeof(x))
+      placeCharacter(x, y, "O", userOneBoard);
+      x = prompt(`Enter the x coordinate for your ship number ${shipNumber}`);
+      y = prompt(`Enter the y coordinate for your ship number ${shipNumber}`);
+      placeCharacter(x, y, "O", userTwoBoard);
+      drawBreak();
+      console.log("USER ONE BOARD");
+      displayGrid(userOneBoard);
+      console.log("COMPUTER BOARD");
+      displayGrid(userTwoBoard);
+    } else {
+      gameSetup();
+    }
+  }
 }
-
 while (userOneHitCount > 0 && userTwoHitCount > 0) {
   x = prompt("Enter the x coordinate for your attack");
   y = prompt("Enter the y coordinate for your attack");
@@ -41,7 +45,8 @@ while (userOneHitCount > 0 && userTwoHitCount > 0) {
   }
   x = getRandomInt(boardSize);
   y = getRandomInt(boardSize);
-
+    console.log(x)
+    console.log(y)
   if (userTwoHitCount > 0 && attack(x, y, userOneBoard)) {
     userTwoHitCount--;
   }
@@ -74,12 +79,12 @@ function displayGrid(grid) {
   const columns = columnHeading(grid.length);
   console.log(columns);
   for (let i = 0; i < grid.length; i++) {
-    let rows = i + " ";
+    let rows = `${i} `;
     for (let cell of grid[i]) {
       if (cell === "ship") {
         rows += "- ";
       } else {
-        rows += cell + " ";
+        rows += `${cell} `;
       }
     }
     console.log(rows);
@@ -89,7 +94,7 @@ function displayGrid(grid) {
 function columnHeading(size) {
   let result = "  ";
   for (let i = 0; i < size; i++) {
-    result += i + " ";
+    result += `${i} `;
   }
   return result;
 }
@@ -97,7 +102,7 @@ function columnHeading(size) {
 function placeCharacter(x, y, c, grid) {
   let i = parseInt(x);
   let j = parseInt(y);
-
+  // console.log(grid === userOneBoard)
   let vertOrHorz = prompt(
     "Enter whether you want to place it vertically (PRESS V) or horizontally (PRESS H"
   );
@@ -124,34 +129,65 @@ function placeCharacter(x, y, c, grid) {
       // try{
       if (
         grid[i][j] === "-" &&
-        grid[i - 1][j] === "-" &&
-        grid[i - 2][j] === "-"
+        grid[i-1][j] === "-" &&
+        grid[i-2][j] === "-"
       ) {
+        // console.log(typeof(i),typeof(j));
+        // console.log(grid[i - 1][j] === "-");
+        // console.log(grid[i - 2][j] === "-");
         grid[i][j] = c;
-        grid[i - 1][j] = c;
-        grid[i - 2][j] = c;
+        grid[i-1][j] = c;
+        grid[i-2][j] = c;
+        drawBreak();
+        console.log("USER ONE BOARD");
+        displayGrid(userOneBoard);
+        console.log("COMPUTER BOARD");
+        displayGrid(userTwoBoard);
+        
       } else {
         console.log("invalid value, ship can't be placed here");
+        if (grid === userOneBoard) placeCharacter(x, y, "O", userOneBoard);
+        else {
+          placeCharacter(x, y, "O", userTwoBoard);
+          drawBreak();
+          console.log("USER ONE BOARD");
+          displayGrid(userOneBoard);
+          console.log("COMPUTER BOARD");
+          displayGrid(userTwoBoard);
+        }
+        // }
+        // catch
+        // {
+        //   console.log("error in your code")
+        //     console.log("try again")
+        //     placeCharacter(x, y, 'O', userOneBoard);
+        // }
       }
-      // }
-      // catch
-      // {
-      //   console.log("error in your code")
-      //     console.log("try again")
-      //     placeCharacter(x, y, 'O', userOneBoard);
-      // }
-    }
-    if (upDown === "D") {
-      if (
-        grid[i][j] === "-" &&
-        grid[i + 1][j] === "-" &&
-        grid[i + 2][j] === "-"
-      ) {
-        grid[i][j] = c;
-        grid[i + 1][j] = c;
-        grid[i + 2][j] = c;
-      } else {
-        console.log("invalid value, ship can't be placed here");
+      if (upDown === "D") {
+        if (
+          grid[i][j] === "-" &&
+          grid[i+1][j] === "-" &&
+          grid[i+2][j] === "-"
+        ) {
+          // console.log(typeof(i),typeof(j));
+          grid[i][j] = c;
+          grid[i+1][j] = c;
+          grid[i+2][j] = c;
+          drawBreak();
+          console.log("USER ONE BOARD");
+          displayGrid(userOneBoard);
+          console.log("COMPUTER BOARD");
+          displayGrid(userTwoBoard);
+        } else {
+          console.log("invalid value, ship can't be placed here");
+
+          placeCharacter(x, y, "O", userTwoBoard);
+          drawBreak();
+          console.log("USER ONE BOARD");
+          displayGrid(userOneBoard);
+          console.log("COMPUTER BOARD");
+          displayGrid(userTwoBoard);
+        }
       }
     }
   }
@@ -161,9 +197,9 @@ function placeCharacter(x, y, c, grid) {
     );
 
     if (side === "L") {
-      console.log(grid[i][j] === "-");
-      console.log(grid[i][j - 1] === "-");
-      console.log(grid[i][j - 2] === "-");
+      // console.log(grid[i][j] === "-");
+      // console.log(grid[i][j - 1] === "-");
+      // console.log(grid[i][j - 2] === "-");
 
       if (
         grid[i][j] === "-" &&
@@ -173,8 +209,19 @@ function placeCharacter(x, y, c, grid) {
         grid[i][j] = c;
         grid[i][j - 1] = c;
         grid[i][j - 2] = c;
+        drawBreak();
+        console.log("USER ONE BOARD");
+        displayGrid(userOneBoard);
+        console.log("COMPUTER BOARD");
+        displayGrid(userTwoBoard);
       } else {
         console.log("invalid value, ship can't be placed here");
+        placeCharacter(x, y, "O", userTwoBoard);
+        drawBreak();
+        console.log("USER ONE BOARD");
+        displayGrid(userOneBoard);
+        console.log("COMPUTER BOARD");
+        displayGrid(userTwoBoard);
       }
     }
     if (side === "R") {
@@ -182,12 +229,24 @@ function placeCharacter(x, y, c, grid) {
         grid[i][j] === "-" &&
         grid[i][j + 1] === "-" &&
         grid[i][j + 2] === "-"
+
       ) {
         grid[i][j] = c;
         grid[i][j + 1] = c;
         grid[i][j + 2] = c;
+        drawBreak();
+        console.log("USER ONE BOARD");
+        displayGrid(userOneBoard);
+        console.log("COMPUTER BOARD");
+        displayGrid(userTwoBoard);
       } else {
         console.log("invalid value, ship can't be placed here");
+        placeCharacter(x, y, "O", userTwoBoard);
+        drawBreak();
+        console.log("USER ONE BOARD");
+        displayGrid(userOneBoard);
+        console.log("COMPUTER BOARD");
+        displayGrid(userTwoBoard);
       }
     }
   }
@@ -210,5 +269,5 @@ function attack(x, y, grid) {
 }
 
 function drawBreak() {
-  console.log("-------------OUTPUT CHANGES--------------------");
+  console.log("---==========-----OUTPUT CHANGES----========----");
 }
