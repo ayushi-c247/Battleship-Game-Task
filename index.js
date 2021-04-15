@@ -15,9 +15,9 @@ gameSetup();
 //game setup
 function gameSetup() {
     for (let totalShip = 1; totalShip <= 1; totalShip++) {
-        let x = prompt('Enter the x coordinate for your ship placement' + totalShip);
-        let y = prompt('Enter the y coordinate for your ship placement' + totalShip);
-        if (userBoardSize >= x && userBoardSize >= y) {
+        let x = prompt('Enter the x coordinate for your ship placement as "User"' + totalShip);
+        let y = prompt('Enter the y coordinate for your ship placement "User"' + totalShip);
+        if (userBoardSize > x && userBoardSize > y) {
             let shipView = prompt('Enter "yes" if, you want ship vertically otherwise enter "no"');
             if (shipView.toLowerCase() === 'yes' && shipView !== " " && shipView.toLowerCase() !== "no") {
                 placeCharacterVertical(x, y, 'O', userBoard);
@@ -30,7 +30,6 @@ function gameSetup() {
             printGrid(userBoard);
         } else {
             alert('Your coordinate value is wrong please enter correct coordinate');
-            // confirm('You want to continue! click ok');
             gameSetup();
         }
     }
@@ -49,7 +48,6 @@ while (enemyAttacks > 0 && userAttacks > 0) {
     if (enemyAttacks > 0 && attack(x, y, userBoard)) {
         userAttacks--;
     }
-
     drawBreak();
     printGrid(enemyBoard, true);
     printGrid(userBoard);
@@ -94,6 +92,7 @@ function printGrid(grid, isEnemy = false) {
     }
 }
 
+
 //
 function createHeaders(size) {
     let result = '  ';
@@ -110,13 +109,21 @@ function placeCharacter(x, y, c, grid) {
     //left
     let leftRightShipPosition = prompt('"Enter "left" if you want left side and Enter "right" if you want right side  ');
     if (leftRightShipPosition.toLowerCase() === "left" && leftRightShipPosition.toLowerCase() !== "right" && leftRightShipPosition.toLowerCase() !== "") {
+
         grid[parseInt(y)][parseInt(x) - 1] = c;
         grid[parseInt(y)][parseInt(x) - 2] = c;
+
     }
     else {
         //right
-        grid[parseInt(y)][parseInt(x) + 1] = c;
-        grid[parseInt(y)][parseInt(x) + 2] = c;
+        if (grid[parseInt(y)][parseInt(x) + 1] == "-" && grid[parseInt(y)][parseInt(x) + 2] == "-") {
+            grid[parseInt(y)][parseInt(x) + 1] = c;
+            grid[parseInt(y)][parseInt(x) + 2] = c;
+        } else {
+            alert("alter!! your ship value goes out of board !! you can choose left or vertical view of ship");
+            gameSetup();
+        }
+
     }
 }
 
@@ -139,12 +146,13 @@ function placeCharacterVertical(x, y, c, grid) {
 
 //enemy
 function enemy(c, grid, max) {
+    c = 'r'
     let didPlace = false;
     while (!didPlace) {
         let x = prompt('Enter the x coordinate for your ship placement of enemy');
         let y = prompt('Enter the y coordinate for your ship placement of enemy');
         if (!enemyLocations[`${x}-${y}`]) {
-            if (enemyBoardSize >= x && enemyBoardSize >= y) {
+            if (enemyBoardSize > x && enemyBoardSize > y) {
                 let userShipView = prompt('Enter "yes" if, you want ship vertically otherwise enter "no"');
                 if (userShipView.toLowerCase() === 'yes' && userShipView !== " " && userShipView.toLowerCase() !== "no") {
                     placeCharacterVertical(x, y, c, grid);
@@ -162,6 +170,7 @@ function enemy(c, grid, max) {
     }
 }
 
+//
 function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
 }
