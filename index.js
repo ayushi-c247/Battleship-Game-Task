@@ -105,22 +105,30 @@ function createHeaders(size) {
 
 //horizontally ship view 
 function placeCharacter(x, y, c, grid) {
-    grid[parseInt(y)][parseInt(x)] = c;
+
     //left
     let leftRightShipPosition = prompt('"Enter "left" if you want left side and Enter "right" if you want right side  ');
     if (leftRightShipPosition.toLowerCase() === "left" && leftRightShipPosition.toLowerCase() !== "right" && leftRightShipPosition.toLowerCase() !== "") {
-
-        grid[parseInt(y)][parseInt(x) - 1] = c;
-        grid[parseInt(y)][parseInt(x) - 2] = c;
-
+        if (grid[parseInt(y)][parseInt(x) - 1] === "-" && grid[parseInt(y)][parseInt(x) - 2] === "-") {
+            grid[parseInt(y)][parseInt(x)] = c;
+            grid[parseInt(y)][parseInt(x) - 1] = c;
+            grid[parseInt(y)][parseInt(x) - 2] = c;
+        } else {
+            console.log("alter!! your ship value goes out of board!! Please select coordinate again!");
+            alert("alter!! your ship value goes out of board!! Please select coordinate again!");
+            gameSetup();
+        }
     }
     else {
         //right
-        if (grid[parseInt(y)][parseInt(x) + 1] == "-" && grid[parseInt(y)][parseInt(x) + 2] == "-") {
+        if (grid[parseInt(y)][parseInt(x) + 1] === "-" && grid[parseInt(y)][parseInt(x) + 2] === "-") {
+            grid[parseInt(y)][parseInt(x)] = c;
             grid[parseInt(y)][parseInt(x) + 1] = c;
             grid[parseInt(y)][parseInt(x) + 2] = c;
-        } else {
-            alert("alter!! your ship value goes out of board !! you can choose left or vertical view of ship");
+        }
+        else {
+            console.log("alter!! your ship value goes out of board!! Please select coordinate again!");
+            alert("alter!! your ship value goes out of board!! Please select coordinate again!");
             gameSetup();
         }
 
