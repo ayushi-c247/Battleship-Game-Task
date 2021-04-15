@@ -7,16 +7,16 @@ let enemyBoard = createGrid(enemyBoardSize);
 let userAttacks = 3;
 let enemyAttacks = 3;
 let enemyLocations = {};
-printGrid(enemyBoard, true);
-printGrid(userBoard);
+displayGrid(enemyBoard, true);
+displayGrid(userBoard);
 gameSetup();
 
 
 //game setup
 function gameSetup() {
     for (let totalShip = 1; totalShip <= 1; totalShip++) {
-        let x = prompt('Enter the x coordinate for your ship placement as "User"' + totalShip);
-        let y = prompt('Enter the y coordinate for your ship placement "User"' + totalShip);
+        let x = prompt('Enter the x coordinate for your ship placement as "User"');
+        let y = prompt('Enter the y coordinate for your ship placement "User"');
         if (userBoardSize > x && userBoardSize > y) {
             let shipView = prompt('Enter "yes" if, you want ship vertically otherwise enter "no"');
             if (shipView.toLowerCase() === 'yes' && shipView !== " " && shipView.toLowerCase() !== "no") {
@@ -26,9 +26,10 @@ function gameSetup() {
             }
             enemy('O', enemyBoard, enemyBoardSize);
             drawBreak();
-            printGrid(enemyBoard, true);
-            printGrid(userBoard);
+            displayGrid(enemyBoard, true);
+            displayGrid(userBoard);
         } else {
+            console.log('Your coordinate value is wrong please enter correct coordinate');
             alert('Your coordinate value is wrong please enter correct coordinate');
             gameSetup();
         }
@@ -36,7 +37,7 @@ function gameSetup() {
 }
 
 
-//game loop
+//game loop for attacking eachother
 while (enemyAttacks > 0 && userAttacks > 0) {
     let x = prompt('Enter the x coordinate for your attack');
     let y = prompt('Enter the y coordinate for your attack');
@@ -49,16 +50,16 @@ while (enemyAttacks > 0 && userAttacks > 0) {
         userAttacks--;
     }
     drawBreak();
-    printGrid(enemyBoard, true);
-    printGrid(userBoard);
+    displayGrid(enemyBoard, true);
+    displayGrid(userBoard);
 }
 
 
 //lose Win Result 
 if (userAttacks < enemyAttacks) {
-    console.log('Lose it all!');
+    console.log('YOU SANK MY BOAT !');
 } else {
-    console.log('Victory!!!');
+    console.log('YOU MISSED! HAHA!!!!!! Victory!!!!');
 }
 
 
@@ -75,8 +76,8 @@ function createGrid(size) {
 }
 
 
-//printGrid
-function printGrid(grid, isEnemy = false) {
+//displayGrid
+function displayGrid(grid, isEnemy = false) {
     const headers = createHeaders(grid.length);
     console.log(headers);
     for (let i = 0; i < grid.length; i++) {
@@ -105,10 +106,9 @@ function createHeaders(size) {
 
 //horizontally ship view 
 function placeCharacter(x, y, c, grid) {
-
     //left
-    let leftRightShipPosition = prompt('"Enter "left" if you want left side and Enter "right" if you want right side  ');
-    if (leftRightShipPosition.toLowerCase() === "left" && leftRightShipPosition.toLowerCase() !== "right" && leftRightShipPosition.toLowerCase() !== "") {
+    let leftRight = prompt('"Enter "left" if you want left side and Enter "right" if you want right side  ');
+    if (leftRight.toLowerCase() === "left" && leftRight.toLowerCase() !== "right" && leftRightShipPosition.toLowerCase() !== "") {
         if (grid[parseInt(y)][parseInt(x) - 1] === "-" && grid[parseInt(y)][parseInt(x) - 2] === "-") {
             grid[parseInt(y)][parseInt(x)] = c;
             grid[parseInt(y)][parseInt(x) - 1] = c;
@@ -129,9 +129,7 @@ function placeCharacter(x, y, c, grid) {
         else {
             console.log("alter!! your ship value goes out of board!! Please select coordinate again!");
             alert("alter!! your ship value goes out of board!! Please select coordinate again!");
-            gameSetup();
         }
-
     }
 }
 
@@ -153,8 +151,7 @@ function placeCharacterVertical(x, y, c, grid) {
 
 
 //enemy
-function enemy(c, grid, max) {
-    c = 'r'
+function enemy(c, grid) {
     let didPlace = false;
     while (!didPlace) {
         let x = prompt('Enter the x coordinate for your ship placement of enemy');
@@ -183,7 +180,6 @@ function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
 }
 
-
 //attacks
 function attack(x, y, grid) {
     if (grid[y][x] == 'O') {
@@ -196,7 +192,6 @@ function attack(x, y, grid) {
         return false;
     }
 }
-
 
 //result
 function drawBreak() {
