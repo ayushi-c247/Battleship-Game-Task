@@ -4,7 +4,7 @@ module.exports = function createBoard(dimension) {
   for (let i = 0; i < dimension; i++) {
     grid[i] = [];
     for (let j = 0; j < dimension; j++) {
-      grid[i][j] = "-";
+      grid[i][j] = '-';
     }
   }
   return grid;
