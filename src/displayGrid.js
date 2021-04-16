@@ -1,4 +1,4 @@
-const columnHeading = require("./columnHeading");
+const columnHeading = require('./utils/columnHeading');
 
 //displaying boards
 module.exports = function displayGrid(grid) {
@@ -7,8 +7,8 @@ module.exports = function displayGrid(grid) {
   for (let i = 0; i < grid.length; i++) {
     let rows = `${i} `;
     for (let cell of grid[i]) {
-      if (cell === "ship") {
-        rows += "- ";
+      if (cell === 'ship') {
+        rows += '- ';
       } else {
         rows += `${cell} `;
       }
