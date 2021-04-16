@@ -3,6 +3,7 @@ const readline = require("readline-sync");
 const createBoard = require("./createBoard");
 const displayGrid = require("./displayGrid");
 const getRandomInt = require("./getRandomInt");
+const attack = require("./attack");
 
 let boardSize = 8;
 
@@ -33,7 +34,7 @@ function gameSetup() {
     let Ordinate1 = parseInt(x);
     let Ordinate2 = parseInt(y);
 
-    if (Ordinate1 <= boardSize-1|| Ordinate2 <= boardSize-1) {
+    if (Ordinate1 <= boardSize - 1 || Ordinate2 <= boardSize - 1) {
       placeCharacter(x, y, "O", userOneBoard);
       x = readline.question(
         `Enter the x coordinate for your ship number--- ${shipNumber}---`
@@ -59,30 +60,28 @@ while (userOneHitCount > 0 && userTwoHitCount > 0) {
   x = readline.question("Enter the x coordinate for your attack---");
   y = readline.question("Enter the y coordinate for your attack---");
 
-  if(x>7 || y>7 )
-  {
-    console.log("invalid attack value on the game board")
+  if (x > 7 || y > 7) {
+    console.log("invalid attack value on the game board");
     process.exit(0);
-  }
-  else
-  {
-  if (attack(x, y, userTwoBoard)) {
-    userOneHitCount--;
-  }
-  x = getRandomInt(boardSize);
-  y = getRandomInt(boardSize);
-  console.log(x);
-  console.log(y);
-  if (userTwoHitCount > 0 && attack(x, y, userOneBoard)) {
-    userTwoHitCount--;
-  }
+  } else {
+    if (attack(x, y, userTwoBoard)) {
+      userOneHitCount--;
+    }
+    x = getRandomInt(boardSize);
+    y = getRandomInt(boardSize);
+    console.log(x);
+    console.log(y);
+    if (userTwoHitCount > 0 && attack(x, y, userOneBoard)) {
+      userTwoHitCount--;
+    }
 
-  drawBreak();
-  console.log("USER ONE BOARD");
-  displayGrid(userOneBoard);
-  console.log("USER TWO BOARD");
-  displayGrid(userTwoBoard);
-}}
+    drawBreak();
+    console.log("USER ONE BOARD");
+    displayGrid(userOneBoard);
+    console.log("USER TWO BOARD");
+    displayGrid(userTwoBoard);
+  }
+}
 
 //winner decalaration after successfull attacks
 if (userOneHitCount < userTwoHitCount) {
@@ -96,39 +95,36 @@ function placeCharacter(x, y, c, grid) {
   let i = parseInt(x);
   let j = parseInt(y);
 
-  if(x>7 || y>7 )
-  {
-    console.log("invalid attack value on the game board")
+  if (x > 7 || y > 7) {
+    console.log("invalid attack value on the game board");
     process.exit(0);
-  }
-  else
-  {
-  let vertOrHorz = readline.question(
-    "Enter whether you want to place it vertically (PRESS V) or horizontally (PRESS H)--- "
-  );
-  if (vertOrHorz === "V" || vertOrHorz === "v") {
-    let upDown = readline.question(
-      "Enter whether you want to place the ship upside (PRESS U) or downside (PRESS D)---"
+  } else {
+    let vertOrHorz = readline.question(
+      "Enter whether you want to place it vertically (PRESS V) or horizontally (PRESS H)--- "
     );
+    if (vertOrHorz === "V" || vertOrHorz === "v") {
+      let upDown = readline.question(
+        "Enter whether you want to place the ship upside (PRESS U) or downside (PRESS D)---"
+      );
 
-    if (upDown === "U" || upDown === "u") {
-      if (
-        grid[i][j] === "-" &&
-        grid[i - 1][j] === "-" &&
-        grid[i - 2][j] === "-"
-      ) {
-        grid[i][j] = c;
-        grid[i - 1][j] = c;
-        grid[i - 2][j] = c;
-        drawBreak();
-        console.log("USER ONE BOARD");
-        displayGrid(userOneBoard);
-        console.log("USER TWO BOARD");
-        displayGrid(userTwoBoard);
-      }
-      // } else {
-      //   console.log("invalid value, ship can't be placed here");
-      //   if (grid === userOneBoard) placeCharacter(x, y, "O", userOneBoard);
+      if (upDown === "U" || upDown === "u") {
+        if (
+          grid[i][j] === "-" &&
+          grid[i - 1][j] === "-" &&
+          grid[i - 2][j] === "-"
+        ) {
+          grid[i][j] = c;
+          grid[i - 1][j] = c;
+          grid[i - 2][j] = c;
+          drawBreak();
+          console.log("USER ONE BOARD");
+          displayGrid(userOneBoard);
+          console.log("USER TWO BOARD");
+          displayGrid(userTwoBoard);
+        }
+        // } else {
+        //   console.log("invalid value, ship can't be placed here");
+        //   if (grid === userOneBoard) placeCharacter(x, y, "O", userOneBoard);
         else {
           placeCharacter(x, y, "O", userTwoBoard);
           drawBreak();
@@ -137,16 +133,48 @@ function placeCharacter(x, y, c, grid) {
           console.log("USER TWO BOARD");
           displayGrid(userTwoBoard);
         }
-      
-      if (upDown === "D" || upDown === "d") {
+
+        if (upDown === "D" || upDown === "d") {
+          if (
+            grid[i][j] === "-" &&
+            grid[i + 1][j] === "-" &&
+            grid[i + 2][j] === "-"
+          ) {
+            grid[i][j] = c;
+            grid[i + 1][j] = c;
+            grid[i + 2][j] = c;
+            drawBreak();
+            console.log("USER ONE BOARD");
+            displayGrid(userOneBoard);
+            console.log("USER TWO BOARD");
+            displayGrid(userTwoBoard);
+          } else {
+            console.log("invalid value, ship can't be placed here");
+
+            placeCharacter(x, y, "O", userTwoBoard);
+            drawBreak();
+            console.log("USER ONE BOARD");
+            displayGrid(userOneBoard);
+            console.log("USER TWO BOARD");
+            displayGrid(userTwoBoard);
+          }
+        }
+      }
+    }
+    if (vertOrHorz === "H" || vertOrHorz === "h") {
+      let side = readline.question(
+        "Enter whether you want to place the ship left (PRESS L) or right (PRESS R) side---"
+      );
+
+      if (side === "L" || side === "l") {
         if (
           grid[i][j] === "-" &&
-          grid[i + 1][j] === "-" &&
-          grid[i + 2][j] === "-"
+          grid[i][j - 1] === "-" &&
+          grid[i][j - 2] === "-"
         ) {
           grid[i][j] = c;
-          grid[i + 1][j] = c;
-          grid[i + 2][j] = c;
+          grid[i][j - 1] = c;
+          grid[i][j - 2] = c;
           drawBreak();
           console.log("USER ONE BOARD");
           displayGrid(userOneBoard);
@@ -154,8 +182,35 @@ function placeCharacter(x, y, c, grid) {
           displayGrid(userTwoBoard);
         } else {
           console.log("invalid value, ship can't be placed here");
+          if (grid === userOneBoard) placeCharacter(x, y, "O", userOneBoard);
+          else placeCharacter(x, y, "O", userTwoBoard);
 
-          placeCharacter(x, y, "O", userTwoBoard);
+          drawBreak();
+          console.log("USER ONE BOARD");
+          displayGrid(userOneBoard);
+          console.log("USER TWO BOARD");
+          displayGrid(userTwoBoard);
+        }
+      }
+      if (side === "R" || side === "r") {
+        if (
+          grid[i][j] === "-" &&
+          grid[i][j + 1] === "-" &&
+          grid[i][j + 2] === "-"
+        ) {
+          grid[i][j] = c;
+          grid[i][j + 1] = c;
+          grid[i][j + 2] = c;
+          drawBreak();
+          console.log("USER ONE BOARD");
+          displayGrid(userOneBoard);
+          console.log("USER TWO BOARD");
+          displayGrid(userTwoBoard);
+        } else {
+          console.log("invalid value, ship can't be placed here");
+          if (grid === userOneBoard) placeCharacter(x, y, "O", userOneBoard);
+          else placeCharacter(x, y, "O", userTwoBoard);
+
           drawBreak();
           console.log("USER ONE BOARD");
           displayGrid(userOneBoard);
@@ -164,82 +219,6 @@ function placeCharacter(x, y, c, grid) {
         }
       }
     }
-  }
-  if (vertOrHorz === "H" || vertOrHorz === "h" ) {
-    let side = readline.question(
-      "Enter whether you want to place the ship left (PRESS L) or right (PRESS R) side---"
-    );
-
-    if (side === "L" || side === "l") {
-      if (
-        grid[i][j] === "-" &&
-        grid[i][j - 1] === "-" &&
-        grid[i][j - 2] === "-"
-      ) {
-        grid[i][j] = c;
-        grid[i][j - 1] = c;
-        grid[i][j - 2] = c;
-        drawBreak();
-        console.log("USER ONE BOARD");
-        displayGrid(userOneBoard);
-        console.log("USER TWO BOARD");
-        displayGrid(userTwoBoard);
-      } else {
-        console.log("invalid value, ship can't be placed here");
-        if(grid === userOneBoard)
-        placeCharacter(x, y, "O", userOneBoard);
-        else
-        placeCharacter(x, y, "O", userTwoBoard);
-        
-        drawBreak();
-        console.log("USER ONE BOARD");
-        displayGrid(userOneBoard);
-        console.log("USER TWO BOARD");
-        displayGrid(userTwoBoard);
-      }
-    }
-    if (side === "R" || side === "r") {
-      if (
-        grid[i][j] === "-" &&
-        grid[i][j + 1] === "-" &&
-        grid[i][j + 2] === "-"
-      ) {
-        grid[i][j] = c;
-        grid[i][j + 1] = c;
-        grid[i][j + 2] = c;
-        drawBreak();
-        console.log("USER ONE BOARD");
-        displayGrid(userOneBoard);
-        console.log("USER TWO BOARD");
-        displayGrid(userTwoBoard);
-      } else {
-        console.log("invalid value, ship can't be placed here");
-        if(grid === userOneBoard)
-        placeCharacter(x, y, "O", userOneBoard);
-        else
-        placeCharacter(x, y, "O", userTwoBoard);
-        
-        drawBreak();
-        console.log("USER ONE BOARD");
-        displayGrid(userOneBoard);
-        console.log("USER TWO BOARD");
-        displayGrid(userTwoBoard);
-      }
-    }
-  }
-}
-}
-
-// Deciding if the attack is a "Hit" or a "Miss" on the game boards
-function attack(x, y, grid) {
-  if (grid[x][y] === "O") {
-    grid[x][y] = "!";
-    return true;
-  } else if (grid[x][y] === "-") {
-    grid[x][y] = "x";
-    return false;
-  } else {
-    return false;
   }
 }
 
