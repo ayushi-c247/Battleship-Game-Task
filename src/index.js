@@ -2,7 +2,7 @@ const readline = require("readline-sync");
 
 const createBoard = require("./createBoard");
 const displayGrid = require("./displayGrid");
-const getRandomInt = require("./random");
+const getRandomInt = require("./getRandomInt");
 
 let boardSize = 8;
 
@@ -106,12 +106,12 @@ function placeCharacter(x, y, c, grid) {
   let vertOrHorz = readline.question(
     "Enter whether you want to place it vertically (PRESS V) or horizontally (PRESS H)--- "
   );
-  if (vertOrHorz === "V") {
+  if (vertOrHorz === "V" || vertOrHorz === "v") {
     let upDown = readline.question(
       "Enter whether you want to place the ship upside (PRESS U) or downside (PRESS D)---"
     );
 
-    if (upDown === "U") {
+    if (upDown === "U" || upDown === "u") {
       if (
         grid[i][j] === "-" &&
         grid[i - 1][j] === "-" &&
@@ -138,7 +138,7 @@ function placeCharacter(x, y, c, grid) {
           displayGrid(userTwoBoard);
         }
       
-      if (upDown === "D") {
+      if (upDown === "D" || upDown === "d") {
         if (
           grid[i][j] === "-" &&
           grid[i + 1][j] === "-" &&
@@ -165,12 +165,12 @@ function placeCharacter(x, y, c, grid) {
       }
     }
   }
-  if (vertOrHorz === "H") {
+  if (vertOrHorz === "H" || vertOrHorz === "h" ) {
     let side = readline.question(
       "Enter whether you want to place the ship left (PRESS L) or right (PRESS R) side---"
     );
 
-    if (side === "L") {
+    if (side === "L" || side === "l") {
       if (
         grid[i][j] === "-" &&
         grid[i][j - 1] === "-" &&
@@ -198,7 +198,7 @@ function placeCharacter(x, y, c, grid) {
         displayGrid(userTwoBoard);
       }
     }
-    if (side === "R") {
+    if (side === "R" || side === "r") {
       if (
         grid[i][j] === "-" &&
         grid[i][j + 1] === "-" &&
