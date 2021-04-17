@@ -69,7 +69,7 @@ while (userOneHitCount > 0 && userTwoHitCount > 0) {
   x = readline.question("Enter the x coordinate for your attack---");
   y = readline.question("Enter the y coordinate for your attack---");
 
-  if (boardSize > x || boardSize > y) {
+  if (boardSize > x && boardSize > y) {
     if (attack(x, y, userTwoBoard)) {
       userOneHitCount--;
     }
