@@ -68,31 +68,34 @@ let count = 0;
 while (userOneHitCount > 0 && userTwoHitCount > 0) {
   x = readline.question(`${message.rowAttack}`);
   y = readline.question(`${message.colAttack}`);
+  if (x !== "" && y !== "") {
+    if (boardSize > x && boardSize > y) {
+      if (attack(x, y, userTwoBoard)) {
+        userOneHitCount--;
+      }
+      x = getRandomInt(boardSize);
+      y = getRandomInt(boardSize);
+      console.log(x);
+      console.log(y);
+      if (userTwoHitCount > 0 && attack(x, y, userOneBoard)) {
+        userTwoHitCount--;
+      }
 
-  if (boardSize > x && boardSize > y) {
-    if (attack(x, y, userTwoBoard)) {
-      userOneHitCount--;
+      drawBreak();
+      console.log("USER ONE BOARD");
+      displayGrid(userOneBoard);
+      console.log("USER TWO BOARD");
+      displayGrid(userTwoBoard);
+    } else {
+      console.log("invalid attack !!'please select correct values'");
+      count++;
+      if (count === 3) {
+        console.log(" lost chance !! Game over ");
+        process.exit(0);
+      }
     }
-    x = getRandomInt(boardSize);
-    y = getRandomInt(boardSize);
-    console.log(x);
-    console.log(y);
-    if (userTwoHitCount > 0 && attack(x, y, userOneBoard)) {
-      userTwoHitCount--;
-    }
-
-    drawBreak();
-    console.log("USER ONE BOARD");
-    displayGrid(userOneBoard);
-    console.log("USER TWO BOARD");
-    displayGrid(userTwoBoard);
   } else {
-    console.log("invalid attack !!'please select correct values'");
-    count++;
-    if (count === 3) {
-      console.log(" lost chance !! Game over ");
-      process.exit(0);
-    }
+    console.log("please enter coordinates");
   }
 }
 
@@ -108,7 +111,7 @@ function placeCharacter(x, y, c, grid) {
   let i = parseInt(x);
   let j = parseInt(y);
 
-  if (x > 7 || y > 7) {
+  if (i > 7 || j > 7) {
     console.log("invalid attack value on the game board");
     process.exit(0);
   } else {
