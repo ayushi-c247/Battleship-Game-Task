@@ -25,7 +25,7 @@ gameSetup();
 function gameSetup() {
     for (let totalShip = 1; totalShip <= 1; totalShip++) {
         let x = readlineSync.question('Enter the x coordinate for your ship placement as "User"');
-        let y = readlineSync.question('Enter the y coordinate for your ship placement "User"');
+        let y = readlineSync.question('Enter the y coordinate for your ship placement as "User"');
         if (userBoardSize > x && userBoardSize > y) {
             //user
             let shipView = readlineSync.question('Enter "yes" if, you want ship vertically otherwise enter "no"');
@@ -50,24 +50,6 @@ function gameSetup() {
 
 
 // //game loop for attacking eachother
-// while (enemyAttacks > 0 && userAttacks > 0) {
-//     let x = readlineSync.question('Enter the x coordinate for your attack as user');
-//     let y = readlineSync.question('Enter the y coordinate for your attack as user');
-//     if (attack(x, y, enemyBoard)) {
-//         enemyAttacks--;
-//     }
-//     x = getRandomInt(userBoardSize);
-//     y = getRandomInt(userBoardSize);
-//     if (enemyAttacks > 0 && attack(x, y, userBoard)) {
-//         userAttacks--;
-//     }
-//     drawBreak();
-//     console.log("---Enemy Board---");
-//     displayGrid(enemyBoard, true);
-//     console.log("---User board---");
-//     displayGrid(userBoard);
-// }
-
 while (enemyAttacks > 0 && userAttacks > 0) {
     let x = readlineSync.question('Enter the x coordinate for your attack as user');
     let y = readlineSync.question('Enter the y coordinate for your attack as user');
@@ -233,4 +215,4 @@ function drawBreak() {
     console.log('****************************************Game start***********************************************');
 }
 
-module.exports = { gameSetup }
+//module.exports = {gameSetup};

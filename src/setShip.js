@@ -1,5 +1,5 @@
 const readlineSync = require('readline-sync');
-const { gameSetup } = require('./index');
+
 //horizontally ship view 
 function placeCharacter(x, y, c, grid) {
     //left
@@ -12,6 +12,7 @@ function placeCharacter(x, y, c, grid) {
         } else {
             console.log("alter!! your ship value goes out of board!! Please select coordinate again!");
             placeCharacter(x, y, c, grid);
+            //gameSetup()
         }
     }
     else {
@@ -20,7 +21,7 @@ function placeCharacter(x, y, c, grid) {
             grid[parseInt(y)][parseInt(x)] = c;
             grid[parseInt(y)][parseInt(x) + 1] = c;
             grid[parseInt(y)][parseInt(x) + 2] = c;
-            // placeCharacter(x, y, c, grid);
+
         }
         else {
             console.log("alter!! your ship value goes out of board!! Please select coordinate again!");
@@ -32,7 +33,6 @@ function placeCharacter(x, y, c, grid) {
 
 //vertically ship view 
 function placeCharacterVertical(x, y, c, grid) {
-
     //Up
     let upDownShipPosition = readlineSync.question('"Enter "Up" if you want up side and Enter "Down" if you want Down side  ');
     if (upDownShipPosition.toLowerCase() === "up" && upDownShipPosition.toLowerCase() !== "down" && upDownShipPosition.toLowerCase() !== "") {
