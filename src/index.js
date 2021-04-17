@@ -15,9 +15,9 @@ let userOneHitCount = 3; // if hit reaches 0 then user one wins the game
 let userTwoHitCount = 3; // if hit reaches 0 then use two wins the game
 
 drawBreak();
-console.log("USER ONE BOARD");
+console.log(`${message.USERONEBOARD}`);
 displayGrid(userOneBoard);
-console.log("USER TWO BOARD");
+console.log(`${message.USERTWOBOARD}`);
 displayGrid(userTwoBoard);
 gameSetup();
 
@@ -37,9 +37,9 @@ function gameSetup() {
     let Ordinate2 = parseInt(y);
 
     drawBreak();
-    console.log("USER ONE BOARD");
+    console.log(`${message.USERONEBOARD}`);
     displayGrid(userOneBoard);
-    console.log("USER TWO BOARD");
+    console.log(`${message.USERTWOBOARD}`);
     displayGrid(userTwoBoard);
 
     if (Ordinate1 <= boardSize - 1 || Ordinate2 <= boardSize - 1) {
@@ -52,9 +52,9 @@ function gameSetup() {
       );
       placeCharacter(x, y, "O", userTwoBoard);
       drawBreak();
-      console.log("USER ONE BOARD");
+      console.log(`${message.USERONEBOARD}`);
       displayGrid(userOneBoard);
-      console.log("USER TWO BOARD");
+      console.log(`${message.USERTWOBOARD}`);
       displayGrid(userTwoBoard);
     } else {
       console.log("Invalid value for ship co-ordinate");
@@ -82,9 +82,9 @@ while (userOneHitCount > 0 && userTwoHitCount > 0) {
       }
 
       drawBreak();
-      console.log("USER ONE BOARD");
+      console.log(`${message.USERONEBOARD}`);
       displayGrid(userOneBoard);
-      console.log("USER TWO BOARD");
+      console.log(`${message.USERTWOBOARD}`);
       displayGrid(userTwoBoard);
     } else {
       console.log("invalid attack !!'please select correct values'");
@@ -101,7 +101,7 @@ while (userOneHitCount > 0 && userTwoHitCount > 0) {
 
 //winner decalaration after successfull attacks
 if (userOneHitCount < userTwoHitCount) {
-  console.log("user one won this game!!!");
+  console.log(`${WON}`);
 } else {
   console.log("user two won this game!!!");
 }
@@ -112,7 +112,7 @@ function placeCharacter(x, y, c, grid) {
   let j = parseInt(y);
 
   if (i > 7 || j > 7) {
-    console.log("invalid attack value on the game board");
+    console.log(`${INVALIDATTACKS}`);
     process.exit(0);
   } else {
     let vertOrHorz = readline.question(`${message.VERTICALHORIZONTAL}`
@@ -143,9 +143,9 @@ function placeCharacter(x, y, c, grid) {
         else {
           placeCharacter(x, y, "O", userTwoBoard);
           drawBreak();
-          console.log("USER ONE BOARD");
+          console.log(`${message.USERONEBOARD}`);
           displayGrid(userOneBoard);
-          console.log("USER TWO BOARD");
+          console.log(`${message.USERTWOBOARD}`);
           displayGrid(userTwoBoard);
         }
 
@@ -168,9 +168,9 @@ function placeCharacter(x, y, c, grid) {
 
             placeCharacter(x, y, "O", userTwoBoard);
             drawBreak();
-            console.log("USER ONE BOARD");
+            console.log(`${message.USERONEBOARD}`);
             displayGrid(userOneBoard);
-            console.log("USER TWO BOARD");
+            console.log(`${message.USERTWOBOARD}`);
             displayGrid(userTwoBoard);
           }
         }
@@ -201,9 +201,9 @@ function placeCharacter(x, y, c, grid) {
           else placeCharacter(x, y, "O", userTwoBoard);
 
           drawBreak();
-          console.log("USER ONE BOARD");
+          console.log(`${message.USERONEBOARD}`);
           displayGrid(userOneBoard);
-          console.log("USER TWO BOARD");
+          console.log(`${message.USERTWOBOARD}`);
           displayGrid(userTwoBoard);
         }
       }
@@ -227,9 +227,9 @@ function placeCharacter(x, y, c, grid) {
           else placeCharacter(x, y, "O", userTwoBoard);
 
           drawBreak();
-          console.log("USER ONE BOARD");
+          console.log(`${message.USERONEBOARD}`);
           displayGrid(userOneBoard);
-          console.log("USER TWO BOARD");
+          console.log(`${message.USERTWOBOARD}`);
           displayGrid(userTwoBoard);
         }
       }
