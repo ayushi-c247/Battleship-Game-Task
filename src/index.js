@@ -28,10 +28,10 @@ function gameSetup() {
     let shipNumber = index + 1;
 
     let x = readline.question(
-      `${message.rowShip} ${shipNumber}---`
+      `${message.ROWSHIP} ${shipNumber}---`
     );
     let y = readline.question(
-      `${message.colShip} ${shipNumber}---`
+      `${message.COLSHIP} ${shipNumber}---`
     );
     let Ordinate1 = parseInt(x);
     let Ordinate2 = parseInt(y);
@@ -45,10 +45,10 @@ function gameSetup() {
     if (Ordinate1 <= boardSize - 1 || Ordinate2 <= boardSize - 1) {
       placeCharacter(x, y, "O", userOneBoard);
       x = readline.question(
-        `${message.rowShip} ${shipNumber}---`
+        `${message.ROWSHIP} ${shipNumber}---`
       );
       y = readline.question(
-        `${message.colShip} ${shipNumber}---`
+        `${message.COLSHIP} ${shipNumber}---`
       );
       placeCharacter(x, y, "O", userTwoBoard);
       drawBreak();
@@ -66,8 +66,8 @@ function gameSetup() {
 let count = 0;
 //Logic of attack on both the game boards and winner declaration
 while (userOneHitCount > 0 && userTwoHitCount > 0) {
-  x = readline.question(`${message.rowAttack}`);
-  y = readline.question(`${message.colAttack}`);
+  x = readline.question(`${message.ROWATTACKS}`);
+  y = readline.question(`${message.COLATTACKS}`);
   if (x !== "" && y !== "") {
     if (boardSize > x && boardSize > y) {
       if (attack(x, y, userTwoBoard)) {
@@ -115,11 +115,11 @@ function placeCharacter(x, y, c, grid) {
     console.log("invalid attack value on the game board");
     process.exit(0);
   } else {
-    let vertOrHorz = readline.question(`${message.verticalHorizontal}`
+    let vertOrHorz = readline.question(`${message.VERTICALHORIZONTAL}`
     );
     if (vertOrHorz === "V" || vertOrHorz === "v") {
       let upDown = readline.question(
-        `${message.updown}`
+        `${message.UPDOWN}`
       );
 
       if (upDown === "U" || upDown === "u") {
@@ -178,7 +178,7 @@ function placeCharacter(x, y, c, grid) {
     }
     if (vertOrHorz === "H" || vertOrHorz === "h") {
       let side = readline.question(
-        `${message.rightLeft}`
+        `${message.RIGHLEFT}`
       );
 
       if (side === "L" || side === "l") {
