@@ -28,10 +28,10 @@ function gameSetup() {
     let shipNumber = index + 1;
 
     let x = readline.question(
-      `Enter the x coordinate for your ship number--- ${shipNumber}---`
+      `${message.rowShip} ${shipNumber}---`
     );
     let y = readline.question(
-      `Enter the y coordinate for your ship number--- ${shipNumber}---`
+      `${message.colShip} ${shipNumber}---`
     );
     let Ordinate1 = parseInt(x);
     let Ordinate2 = parseInt(y);
@@ -45,10 +45,10 @@ function gameSetup() {
     if (Ordinate1 <= boardSize - 1 || Ordinate2 <= boardSize - 1) {
       placeCharacter(x, y, "O", userOneBoard);
       x = readline.question(
-        `Enter the x coordinate for your ship number--- ${shipNumber}---`
+        `${message.rowShip} ${shipNumber}---`
       );
       y = readline.question(
-        `Enter the y coordinate for your ship number--- ${shipNumber}---`
+        `${message.colShip} ${shipNumber}---`
       );
       placeCharacter(x, y, "O", userTwoBoard);
       drawBreak();
@@ -66,8 +66,8 @@ function gameSetup() {
 let count = 0;
 //Logic of attack on both the game boards and winner declaration
 while (userOneHitCount > 0 && userTwoHitCount > 0) {
-  x = readline.question("Enter the x coordinate for your attack---");
-  y = readline.question("Enter the y coordinate for your attack---");
+  x = readline.question(`${message.rowAttack}`);
+  y = readline.question(`${message.colAttack}`);
 
   if (boardSize > x && boardSize > y) {
     if (attack(x, y, userTwoBoard)) {
@@ -112,12 +112,11 @@ function placeCharacter(x, y, c, grid) {
     console.log("invalid attack value on the game board");
     process.exit(0);
   } else {
-    let vertOrHorz = readline.question(
-      "Enter whether you want to place it vertically (PRESS V) or horizontally (PRESS H)--- "
+    let vertOrHorz = readline.question(`${message.verticalHorizontal}`
     );
     if (vertOrHorz === "V" || vertOrHorz === "v") {
       let upDown = readline.question(
-        "Enter whether you want to place the ship upside (PRESS U) or downside (PRESS D)---"
+        `${message.updown}`
       );
 
       if (upDown === "U" || upDown === "u") {
@@ -176,7 +175,7 @@ function placeCharacter(x, y, c, grid) {
     }
     if (vertOrHorz === "H" || vertOrHorz === "h") {
       let side = readline.question(
-        "Enter whether you want to place the ship left (PRESS L) or right (PRESS R) side---"
+        `${message.rightLeft}`
       );
 
       if (side === "L" || side === "l") {
