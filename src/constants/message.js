@@ -1,0 +1,23 @@
+const message = {
+    ROW_SHIP: "Enter the row coordinate for your ship number---",
+    COL_SHIP: "Enter the column coordinate for your ship number---",
+    ROW_ATTACKS: "Enter the row coordinate for your attack---",
+    COL_ATTACKS: "Enter the column coordinate for your attack---",
+    VERTICAL_HORIZONTAL: "Enter whether you want to place it vertically (PRESS V) or horizontally (PRESS H)--- ",
+    UP_DOWN: "Enter whether you want to place the ship upside (PRESS U) or downside (PRESS D)---",
+    RIGHT_LEFT: "Enter whether you want to place the ship left (PRESS L) or right (PRESS R) side---",
+    USER_ONE_BOARD: "USER ONE BOARD",
+    USER_TWO_BOARD: "USER TWO BOARD",
+    USER_TWO_WON: "User two won this game!!!",
+    USER_ONE_WON: "User one won this game!!!",
+    SHIP_NOT_PLACED: "Invalid value, ship can't be placed here",
+    INVALID_ATTACKS: "Invalid attack value on the game board",
+    USER_TWO_LOST: "User two lost!!!",
+    USER_ONE_LOST: "User one lost!!!",
+    LOST_CHANCE: " Lost chance !! Game over ",
+    SELECT_ATTACK: "Invalid attack !!'please select correct values'",
+    INVALID_SHIP: "Invalid value for ship co-ordinate",
+    ENTER_ATTACK_VALUE: "Please enter coordinates",
+    INVALID_CO_ORDINATE:"Invalid co-ordinates chosen for placing ship on game board",
+}
+module.exports = message;

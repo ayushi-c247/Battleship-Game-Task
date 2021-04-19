@@ -1,11 +1,11 @@
-const readline = require('readline-sync');
+const readline = require("readline-sync");
 
-const message = require('./constant/message');
-const createBoard = require('./createBoard');
-const displayGrid = require('./displayGrid');
-const getRandomInt = require('./utils/random');
-const drawBreak = require('./utils/drawbreak');
-const attack = require('./attack');
+const message = require("./constants/message");
+const createBoard = require("./createBoard");
+const displayGrid = require("./displayGrid");
+const getRandomInt = require("./utils/random");
+const drawBreak = require("./utils/drawBreak");
+const attack = require("./attack");
 
 //default board size
 let boardSize = 8;
@@ -18,9 +18,9 @@ let userTwoHitCount = 3; // if hit reaches 0 then use two wins the game
 
 //display boards
 drawBreak();
-console.log(`${message.USERONEBOARD}`);
+console.log(`${message.USER_ONE_BOARD}`);
 displayGrid(userOneBoard);
-console.log(`${message.USERTWOBOARD}`);
+console.log(`${message.USER_TWO_BOARD}`);
 displayGrid(userTwoBoard);
 gameSetup();
 
@@ -30,13 +30,9 @@ function gameSetup() {
     let index = parseInt(i);
     let shipNumber = index + 1;
 
-    let x = readline.question(
-      `${message.ROWSHIP} ${shipNumber}---player1-->`
-    );
+    let x = readline.question(`${message.ROW_SHIP} ${shipNumber}---player1-->`);
 
-    let y = readline.question(
-      `${message.COLSHIP} ${shipNumber}---player1-->`
-    );
+    let y = readline.question(`${message.COL_SHIP} ${shipNumber}---player1-->`);
     let Ordinate1 = parseInt(x);
     let Ordinate2 = parseInt(y);
 
@@ -51,35 +47,37 @@ function gameSetup() {
     }
 
     if (x <= boardSize - 1 && y <= boardSize - 1) {
-      placeCharacter(x, y, "O", userOneBoard, user = "player1");
-      x = readline.question(
-        `${message.ROWSHIP} ${shipNumber}---player2-->`
-      );
-      y = readline.question(
-        `${message.COLSHIP} ${shipNumber}---player2-->`
-      );
-      placeCharacter(x, y, "O", userTwoBoard, user = "player2");
+      placeCharacter(x, y, "O", userOneBoard, (user = "player1"));
+      x = readline.question(`${message.ROW_SHIP} ${shipNumber}---player2-->`);
+      y = readline.question(`${message.COL_SHIP} ${shipNumber}---player2-->`);
+      placeCharacter(x, y, "O", userTwoBoard, (user = "player2"));
       drawBreak();
-      console.log(`${message.USERONEBOARD}`);
+      console.log(`${message.USER_ONE_BOARD}`);
       displayGrid(userOneBoard);
-      console.log(`${message.USERTWOBOARD}`);
+      console.log(`${message.USER_TWO_BOARD}`);
       displayGrid(userTwoBoard);
     } else {
-      console.log(`${message.INVAILIDSHIP}`);
+      console.log(`${message.INVALID_SHIP}`);
       gameSetup();
     }
   }
 }
 
-
-
+//display both user game boards inside placeCharacter function
+function displayOutput() {
+  drawBreak();
+  console.log(`${message.USER_ONE_BOARD}`);
+  displayGrid(userOneBoard);
+  console.log(`${message.USER_TWO_BOARD}`);
+  displayGrid(userTwoBoard);
+}
 //using count variable to give only three chances to user after selecting wrong values else terminate game
 let count = 0;
 //Logic of attack on both the game boards and winner declaration
 
 while (userOneHitCount > 0 && userTwoHitCount > 0) {
-  x = readline.question(`${message.ROWATTACKS}`);
-  y = readline.question(`${message.COLATTACKS}`);
+  x = readline.question(`${message.ROW_ATTACKS}`);
+  y = readline.question(`${message.COL_ATTACKS}`);
   if (x !== "" && y !== "") {
     if (x <= boardSize - 1 && y <= boardSize - 1) {
       if (attack(x, y, userTwoBoard)) {
@@ -94,71 +92,69 @@ while (userOneHitCount > 0 && userTwoHitCount > 0) {
       }
 
       drawBreak();
-      console.log(`${message.USERONEBOARD}`);
+      console.log(`${message.USER_ONE_BOARD}`);
       displayGrid(userOneBoard);
-      console.log(`${message.USERTWOBOARD}`);
+      console.log(`${message.USER_TWO_BOARD}`);
       displayGrid(userTwoBoard);
     } else {
-      console.log(`${message.SELECTATTACK}`);
+      console.log(`${message.SELECT_ATTACK}`);
       count++;
       if (count === 3) {
-        console.log(`${message.LOSTCHANCE}`);
+        console.log(`${message.LOST_CHANCE}`);
         process.exit(0);
       }
     }
   } else {
-    console.log(`${message.ENTERATTACKVALUE}`);
+    console.log(`${message.ENTER_ATTACK_VALUE}`);
   }
 }
 
 //winner decalaration after successfull attacks
 if (userOneHitCount < userTwoHitCount) {
-  console.log(`${message.USERONEWON}`);
-  console.log(`${message.USERTWOLOSS}`);
+  console.log(`${message.USER_ONE_WON}`);
+  console.log(`${message.USER_TWO_LOST}`);
 } else {
-  console.log(`${message.USERTWOWON}`);
-  console.log(`${message.USERONELOSS}`);
+  console.log(`${message.USER_TWO_WON}`);
+  console.log(`${message.USER_ONE_LOST}`);
 }
 
 //Placing ship on both the boards either in vertical or horizontal direction
 function placeCharacter(x, y, c, grid, user) {
- 
-while (x === "" || y === "") {
-    x = readline.question(
-      `${message.ROWSHIP}---player2-->>`
-    );
-    y = readline.question(
-      `${message.COLSHIP}---player2-->>`
-    );
+  while (x === "" || y === "") {
+    x = readline.question(`${message.ROW_SHIP}---player2-->>`);
+    y = readline.question(`${message.COL_SHIP}---player2-->>`);
   }
   let i = parseInt(x);
-console.log(i)
+  console.log(i);
 
-let j = parseInt(y);
-console.log(j)
-  if (i > 7 ||
-     j > 7) {
-    console.log(`${message.INVAILIDCOORDINATE}`);
+  let j = parseInt(y);
+  console.log(j);
+  if (i > 7 || j > 7) {
+    console.log(`${message.INVALID_CO_ORDINATE}`);
     // process.exit(0);
-    console.log("=======================", user)
-    x = readline.question(
-      `${message.ROWSHIP}---player2-->>`
-    );
-    y = readline.question(
-      `${message.COLSHIP}---player2-->>`
-    );
-    if (grid === userOneBoard) placeCharacter(x, y, 'O', userOneBoard, user = "player1");
-    else placeCharacter(x, y, 'O', userTwoBoard, user = "player2");
+    console.log("=======================", user);
+    x = readline.question(`${message.ROW_SHIP}---player2-->>`);
+    y = readline.question(`${message.COL_SHIP}---player2-->>`);
+    if (grid === userOneBoard)
+      placeCharacter(x, y, "O", userOneBoard, (user = "player1"));
+    else placeCharacter(x, y, "O", userTwoBoard, (user = "player2"));
   } else {
 
-    console.log("=========================", user)
-    let vertOrHorz = readline.question(`${message.VERTICALHORIZONTAL}`);
+    //work inside else condition in placeCharacter to call placecharacter function again for the current user
+    function callFunction() {
+      console.log(`${message.SHIP_NOT_PLACED}`);
+      if (grid === userOneBoard)
+        placeCharacter(x, y, "O", userOneBoard, (user = "player1"));
+      else placeCharacter(x, y, "O", userTwoBoard, (user = "player2"));
+    }
+
+    console.log("=========================", user);
+    let vertOrHorz = readline.question(`${message.VERTICAL_HORIZONTAL}`);
 
     //for vertical
+
     if (vertOrHorz === "V" || vertOrHorz === "v") {
-      let upDown = readline.question(
-        `${message.UPDOWN}`
-      );
+      let upDown = readline.question(`${message.UP_DOWN}`);
 
       if (upDown === "U" || upDown === "u") {
         if (
@@ -169,22 +165,11 @@ console.log(j)
           grid[i][j] = c;
           grid[i - 1][j] = c;
           grid[i - 2][j] = c;
-
+        } else {
+          callFunction();
+          displayOutput();
         }
-
-        else {
-          console.log(`${message.SHIPNOTPLACED}`);
-          if (grid === userOneBoard) placeCharacter(x, y, 'O', userOneBoard);
-          else placeCharacter(x, y, 'O', userTwoBoard);
-
-          drawBreak();
-          console.log(`${message.USERONEBOARD}`);
-          displayGrid(userOneBoard);
-          console.log(`${message.USERTWOBOARD}`);
-          displayGrid(userTwoBoard);
-
-        }
-
+      }
         if (upDown === "D" || upDown === "d") {
           if (
             grid[i][j] === "-" &&
@@ -194,27 +179,17 @@ console.log(j)
             grid[i][j] = c;
             grid[i + 1][j] = c;
             grid[i + 2][j] = c;
-
           } else {
-            console.log(`${message.SHIPNOTPLACED}`);
-            if (grid === userOneBoard) placeCharacter(x, y, 'O', userOneBoard);
-            else placeCharacter(x, y, 'O', userTwoBoard);
-
-            drawBreak();
-            console.log(`${message.USERONEBOARD}`);
-            displayGrid(userOneBoard);
-            console.log(`${message.USERTWOBOARD}`);
-            displayGrid(userTwoBoard);
+            callFunction();
+            displayOutput();
           }
         }
-      }
+      
     }
     //==============
     //for horizontal
-    if (vertOrHorz === "H" || vertOrHorz === "h" ) {
-      let side = readline.question(
-        `${message.RIGHLEFT}`
-      );
+    if (vertOrHorz === "H" || vertOrHorz === "h") {
+      let side = readline.question(`${message.RIGHT_LEFT}`);
 
       if (side === "L" || side === "l") {
         if (
@@ -225,18 +200,9 @@ console.log(j)
           grid[i][j] = c;
           grid[i][j - 1] = c;
           grid[i][j - 2] = c;
-
         } else {
-          console.log(`${message.SHIPNOTPLACED}`);
-          if (grid === userOneBoard) placeCharacter(x, y, 'O', userOneBoard);
-          else placeCharacter(x, y, 'O', userTwoBoard);
-
-          drawBreak();
-          console.log(`${message.USERONEBOARD}`);
-          displayGrid(userOneBoard);
-          console.log(`${message.USERTWOBOARD}`);
-          displayGrid(userTwoBoard);
-
+          callFunction();
+          displayOutput();
         }
       }
       if (side === "R" || side === "r") {
@@ -248,17 +214,9 @@ console.log(j)
           grid[i][j] = c;
           grid[i][j + 1] = c;
           grid[i][j + 2] = c;
-
         } else {
-          console.log(`${message.SHIPNOTPLACED}`);
-          if (grid === userOneBoard) placeCharacter(x, y, 'O', userOneBoard);
-          else placeCharacter(x, y, 'O', userTwoBoard);
-
-          drawBreak();
-          console.log(`${message.USERONEBOARD}`);
-          displayGrid(userOneBoard);
-          console.log(`${message.USERTWOBOARD}`);
-          displayGrid(userTwoBoard);
+          callFunction();
+          displayOutput();
         }
       }
     }
