@@ -8,9 +8,16 @@ const message = {
     RIGHLEFT: "Enter whether you want to place the ship left (PRESS L) or right (PRESS R) side---",
     USERONEBOARD: "USER ONE BOARD",
     USERTWOBOARD: "USER ONE BOARD",
-    WON: "user one won this game!!!",
+    USERTWOWON: "User two won this game!!!",
+    USERONEWON: "User one won this game!!!",
     SHIPNOTPLACED: "Invalid value, ship can't be placed here",
-    INVALIDATTACKS: "invalid attack value on the game board",
-
+    INVALIDATTACKS: "Invalid attack value on the game board",
+    USERTWOLOSS: "USER TWO YOU MISSED IT!!!",
+    USERONELOSS: "USER ONE YOU MISSED IT!!!",
+    LOSTCHANCE: " lost chance !! Game over ",
+    SELECTATTACK: "invalid attack !!'please select correct values'",
+    INVAILIDSHIP: "Invalid value for ship co-ordinate",
+    ENTERATTACKVALUE: "please enter coordinates",
+    INVAILIDCOORDINATE: "invalid co-ordinates chosen for placing ship on game board",
 }
 module.exports = message;
