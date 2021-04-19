@@ -151,6 +151,8 @@ function placeCharacter(x, y, c, grid, user) {
     console.log("=========================", user);
     let vertOrHorz = readline.question(`${message.VERTICAL_HORIZONTAL}`);
 
+    
+   
     //for vertical
 
     if (vertOrHorz === "V" || vertOrHorz === "v") {
