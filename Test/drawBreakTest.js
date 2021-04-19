@@ -2,7 +2,7 @@ const assert = require('assert');
 const expect = require('chai').expect;
 require('mocha-sinon');
 const drawBreak = require('../src/utils/drawBreak');
-const message = require('../src/constant/message');
+const message = require('../src/constants/message');
 module.exports = () => {
   describe('drawBreak() function', () => {
     beforeEach(function () {
