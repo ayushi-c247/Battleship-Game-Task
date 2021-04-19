@@ -6,7 +6,6 @@ const displayGrid = require('./displayGrid');
 const getRandomInt = require('./utils/random');
 const drawBreak = require('./utils/Drawbreak');
 const attack = require('./Attack');
-
 //default board size
 let boardSize = 8;
 

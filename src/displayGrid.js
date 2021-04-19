@@ -1,4 +1,6 @@
 const columnHeading = require('./utils/columnHeading');
+console.log('hi', columnHeading.length);
+console.log('hiiiiiii', columnHeading(5).length);
 
 //displaying boards
 module.exports = function displayGrid(grid) {

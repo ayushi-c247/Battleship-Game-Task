@@ -1,4 +1,3 @@
 //Changing output on console
-module.exports = function () {
-  console.log('---==========-----OUTPUT CHANGES----========----');
-};
+const message = require('../constant/message');
+module.exports = () => console.log(message.DRAWBREAK);
