@@ -7,16 +7,18 @@ const getRandomInt = require("./utils/random");
 const drawBreak = require("./utils/drawBreak");
 const message = require("./constants/message");
 
-
 //initialize variables
 let userBoardSize = 8;
 let enemyBoardSize = userBoardSize;
 let userBoard = createBoard(userBoardSize);
 let enemyBoard = createBoard(enemyBoardSize);
+
+// console.log(attack(2,4,enemyBoard))
 let userAttacks = 3;
 let enemyAttacks = 3;
 let enemyLocations = {};
 
+drawBreak();
 console.log(`${message.ENEMY_BOARD}`);
 displayGrid(enemyBoard, true);
 console.log(`${message.USER_BOARD}`);
@@ -106,7 +108,7 @@ function placeCharacter(x, y, c, grid, flag) {
             grid[parseInt(y)][parseInt(x) - 1] = c;
             grid[parseInt(y)][parseInt(x) - 2] = c;
         } else {
-            console.log(`${message.LEFT_COORDINATE}`);
+            // console.log(`${message.LEFT_COORDINATE}`);
             if (flag === "user") {
                 gameSetup();
             } else {

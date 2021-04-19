@@ -9,7 +9,7 @@ module.exports = () => {
     it('should exist', () => {
       expect(columnHeading).to.exist;
     });
-    it('it should not return -1 when give positive integer ', () => {
+    it('it should not return -1 ', () => {
       assert.notStrictEqual(-1, columnHeading(5));
     });
     it('it should return length 1 ', () => {
