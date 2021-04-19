@@ -1,1 +1,24 @@
-{}
+{
+  "name": "battleship-game-task",
+  "description": "----- Battleship Code Challenge -----",
+  "version": "1.0.0",
+  "main": "index.js",
+  "dependencies": {
+    "chai": "^4.3.4",
+    "mocha": "^8.3.2",
+    "readline-sync": "^1.4.10"
+  },
+  "scripts": {
+    "test": "mocha 'Test/**/*.js'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ayushiC247/Battleship-Game-Task.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ayushiC247/Battleship-Game-Task/issues"
+  },
+  "homepage": "https://github.com/ayushiC247/Battleship-Game-Task#readme"
+}
