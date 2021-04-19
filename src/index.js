@@ -1,227 +1,204 @@
-const readline = require("readline-sync");
+const readlineSync = require('readline-sync');
 
-const message = require("./constants/message");
-const createBoard = require("./createBoard");
-const displayGrid = require("./displayGrid");
+const displayGrid= require("./displayGrid");
+const createBoard = require("./createBoard")
+const attack = require("./attack");
 const getRandomInt = require("./utils/random");
 const drawBreak = require("./utils/drawBreak");
-const attack = require("./attack");
+const message = require("./constants/message");
 
-//default board size
-let boardSize = 8;
 
-//create boards
-let userOneBoard = createBoard(boardSize);
-let userTwoBoard = createBoard(boardSize);
-let userOneHitCount = 3; // if hit reaches 0 then user one wins the game
-let userTwoHitCount = 3; // if hit reaches 0 then use two wins the game
+//initialize variables
+let userBoardSize = 8;
+let enemyBoardSize = userBoardSize;
+let userBoard = createBoard(userBoardSize);
+let enemyBoard = createBoard(enemyBoardSize);
+let userAttacks = 3;
+let enemyAttacks = 3;
+let enemyLocations = {};
 
-//display boards
-drawBreak();
-console.log(`${message.USER_ONE_BOARD}`);
-displayGrid(userOneBoard);
-console.log(`${message.USER_TWO_BOARD}`);
-displayGrid(userTwoBoard);
+console.log(`${message.ENEMY_BOARD}`);
+displayGrid(enemyBoard, true);
+console.log(`${message.USER_BOARD}`);
+displayGrid(userBoard);
 gameSetup();
+enemy('O', enemyBoard, enemyBoardSize);
+drawBreak();
+console.log(`${message.ENEMY_BOARD}`);
+displayGrid(enemyBoard, true);
+console.log(`${message.USER_BOARD}`);
+displayGrid(userBoard);
 
-//Placing ship on both the user game boards
+//game setup
 function gameSetup() {
-  for (let i = 0; i < 1; i++) {
-    let index = parseInt(i);
-    let shipNumber = index + 1;
-
-    let x = readline.question(`${message.ROW_SHIP} ${shipNumber}---player1-->`);
-
-    let y = readline.question(`${message.COL_SHIP} ${shipNumber}---player1-->`);
-    let Ordinate1 = parseInt(x);
-    let Ordinate2 = parseInt(y);
-
-    // drawBreak();
-    // console.log("USER ONE BOARD");
-    // displayGrid(userOneBoard);
-    // console.log("USER TWO BOARD");
-    // displayGrid(userTwoBoard);
-
-    if (Number.isNaN(Ordinate1) || Number.isNaN(Ordinate2)) {
-      gameSetup();
+    for (let totalShip = 1; totalShip <= 1; totalShip++) {
+        let x = readlineSync.question(`${message.USER_ROW_SHIP}`);
+        let y = readlineSync.question(`${message.USER_COL_SHIP}`);
+        if (x !== "" && y !== "") {
+            if (userBoardSize > x && userBoardSize > y) {
+                //user
+                let shipView = readlineSync.question(`${message.VERTICAL_HORIZONTAL}`);
+                if (shipView.toLowerCase() === 'yes' && shipView !== " " && shipView.toLowerCase() !== "no") {
+                    placeCharacterVertical(x, y, 'O', userBoard, "user");
+                } else {
+                    placeCharacter(x, y, 'O', userBoard, "user");
+                }
+            } else {
+                console.log(`${message.SHIP_VALUE_WRONG}`);
+                gameSetup();
+            }
+        } else {
+            console.log(`${message.SHIP_EMPTY}`);
+            gameSetup();
+        }
     }
-
-    if (x <= boardSize - 1 && y <= boardSize - 1) {
-      placeCharacter(x, y, "O", userOneBoard, (user = "player1"));
-      x = readline.question(`${message.ROW_SHIP} ${shipNumber}---player2-->`);
-      y = readline.question(`${message.COL_SHIP} ${shipNumber}---player2-->`);
-      placeCharacter(x, y, "O", userTwoBoard, (user = "player2"));
-      drawBreak();
-      console.log(`${message.USER_ONE_BOARD}`);
-      displayGrid(userOneBoard);
-      console.log(`${message.USER_TWO_BOARD}`);
-      displayGrid(userTwoBoard);
-    } else {
-      console.log(`${message.INVALID_SHIP}`);
-      gameSetup();
-    }
-  }
 }
 
-//display both user game boards inside placeCharacter function
-function displayOutput() {
-  drawBreak();
-  console.log(`${message.USER_ONE_BOARD}`);
-  displayGrid(userOneBoard);
-  console.log(`${message.USER_TWO_BOARD}`);
-  displayGrid(userTwoBoard);
-}
-//using count variable to give only three chances to user after selecting wrong values else terminate game
 let count = 0;
-//Logic of attack on both the game boards and winner declaration
+// //game loop for attacking eachother
+while (enemyAttacks > 0 && userAttacks > 0) {
+    let x = readlineSync.question(`${message.ROW_ATTACKS}`);
+    let y = readlineSync.question(`${message.COL_ATTACKS}`);
+    if (x !== "" && y !== "") {
+        if (userBoardSize > x && userBoardSize > y) {
 
-while (userOneHitCount > 0 && userTwoHitCount > 0) {
-  x = readline.question(`${message.ROW_ATTACKS}`);
-  y = readline.question(`${message.COL_ATTACKS}`);
-  if (x !== "" && y !== "") {
-    if (x <= boardSize - 1 && y <= boardSize - 1) {
-      if (attack(x, y, userTwoBoard)) {
-        userOneHitCount--;
-      }
-      x = getRandomInt(boardSize);
-      y = getRandomInt(boardSize);
-      console.log(x);
-      console.log(y);
-      if (userTwoHitCount > 0 && attack(x, y, userOneBoard)) {
-        userTwoHitCount--;
-      }
-
-      drawBreak();
-      console.log(`${message.USER_ONE_BOARD}`);
-      displayGrid(userOneBoard);
-      console.log(`${message.USER_TWO_BOARD}`);
-      displayGrid(userTwoBoard);
+            if (attack(x, y, enemyBoard)) {
+                enemyAttacks--;
+            }
+            x = getRandomInt(userBoardSize);
+            y = getRandomInt(userBoardSize);
+            if (enemyAttacks > 0 && attack(x, y, userBoard)) {
+                userAttacks--;
+            }
+            drawBreak();
+            console.log(`${message.ENEMY_BOARD}`);
+            displayGrid(enemyBoard, true);
+            console.log(`${message.USER_BOARD}`);
+            displayGrid(userBoard);
+        } else {
+            console.log(`${message.CORRECT_ATTACK_VALUE}`);
+        }
     } else {
-      console.log(`${message.SELECT_ATTACK}`);
-      count++;
-      if (count === 3) {
-        console.log(`${message.LOST_CHANCE}`);
-        process.exit(0);
-      }
+        count++;
+        console.log(`${message.ENTER_ATTACK_VALUE}`);
+        if (count === 3) {
+            console.log(`${message.LOST_CHANCE}`);
+            process.exit(0);
+        }
     }
-  } else {
-    console.log(`${message.ENTER_ATTACK_VALUE}`);
-  }
 }
-
-//winner decalaration after successfull attacks
-if (userOneHitCount < userTwoHitCount) {
-  console.log(`${message.USER_ONE_WON}`);
-  console.log(`${message.USER_TWO_LOST}`);
+//lose Win Result 
+if (userAttacks < enemyAttacks) {
+    console.log(`${message.ENEMY_WON}`);
+    console.log(`${message.USER_LOSS}`);
 } else {
-  console.log(`${message.USER_TWO_WON}`);
-  console.log(`${message.USER_ONE_LOST}`);
+    console.log(`${message.USER_WON}`);
+    console.log(`${message.ENEMY_LOSS}`);
 }
 
-//Placing ship on both the boards either in vertical or horizontal direction
-function placeCharacter(x, y, c, grid, user) {
-  while (x === "" || y === "") {
-    x = readline.question(`${message.ROW_SHIP}---player2-->>`);
-    y = readline.question(`${message.COL_SHIP}---player2-->>`);
-  }
-  let i = parseInt(x);
-  console.log(i);
-
-  let j = parseInt(y);
-  console.log(j);
-  if (i > 7 || j > 7) {
-    console.log(`${message.INVALID_CO_ORDINATE}`);
-    // process.exit(0);
-    console.log("=======================", user);
-    x = readline.question(`${message.ROW_SHIP}---player2-->>`);
-    y = readline.question(`${message.COL_SHIP}---player2-->>`);
-    if (grid === userOneBoard)
-      placeCharacter(x, y, "O", userOneBoard, (user = "player1"));
-    else placeCharacter(x, y, "O", userTwoBoard, (user = "player2"));
-  } else {
-
-    //work inside else condition in placeCharacter to call placecharacter function again for the current user
-    function callFunction() {
-      console.log(`${message.SHIP_NOT_PLACED}`);
-      if (grid === userOneBoard)
-        placeCharacter(x, y, "O", userOneBoard, (user = "player1"));
-      else placeCharacter(x, y, "O", userTwoBoard, (user = "player2"));
-    }
-
-    console.log("=========================", user);
-    let vertOrHorz = readline.question(`${message.VERTICAL_HORIZONTAL}`);
-
-    
-   
-    //for vertical
-
-    if (vertOrHorz === "V" || vertOrHorz === "v") {
-      let upDown = readline.question(`${message.UP_DOWN}`);
-
-      if (upDown === "U" || upDown === "u") {
-        if (
-          grid[i][j] === "-" &&
-          grid[i - 1][j] === "-" &&
-          grid[i - 2][j] === "-"
-        ) {
-          grid[i][j] = c;
-          grid[i - 1][j] = c;
-          grid[i - 2][j] = c;
+//horizontally ship view 
+function placeCharacter(x, y, c, grid, flag) {
+    //left
+    let leftRight = readlineSync.question(`${message.RIGHT_LEFT}`);
+    if (leftRight.toLowerCase() === "left" && leftRight.toLowerCase() !== "right" && leftRight.toLowerCase() !== "") {
+        if (grid[parseInt(y)][parseInt(x) - 1] === "-" && grid[parseInt(y)][parseInt(x) - 2] === "-") {
+            grid[parseInt(y)][parseInt(x)] = c;
+            grid[parseInt(y)][parseInt(x) - 1] = c;
+            grid[parseInt(y)][parseInt(x) - 2] = c;
         } else {
-          callFunction();
-          displayOutput();
+            console.log(`${message.LEFT_COORDINATE}`);
+            if (flag === "user") {
+                gameSetup();
+            } else {
+                enemy(c, grid);
+            }
         }
-      }
-        if (upDown === "D" || upDown === "d") {
-          if (
-            grid[i][j] === "-" &&
-            grid[i + 1][j] === "-" &&
-            grid[i + 2][j] === "-"
-          ) {
-            grid[i][j] = c;
-            grid[i + 1][j] = c;
-            grid[i + 2][j] = c;
-          } else {
-            callFunction();
-            displayOutput();
-          }
-        }
-      
     }
-    //==============
-    //for horizontal
-    if (vertOrHorz === "H" || vertOrHorz === "h") {
-      let side = readline.question(`${message.RIGHT_LEFT}`);
-
-      if (side === "L" || side === "l") {
-        if (
-          grid[i][j] === "-" &&
-          grid[i][j - 1] === "-" &&
-          grid[i][j - 2] === "-"
-        ) {
-          grid[i][j] = c;
-          grid[i][j - 1] = c;
-          grid[i][j - 2] = c;
-        } else {
-          callFunction();
-          displayOutput();
+    else {
+        //right
+        if (grid[parseInt(y)][parseInt(x) + 1] === "-" && grid[parseInt(y)][parseInt(x) + 2] === "-" && grid[parseInt(y)][parseInt(x)] === "-") {
+            grid[parseInt(y)][parseInt(x)] = c;
+            grid[parseInt(y)][parseInt(x) + 1] = c;
+            grid[parseInt(y)][parseInt(x) + 2] = c;
         }
-      }
-      if (side === "R" || side === "r") {
-        if (
-          grid[i][j] === "-" &&
-          grid[i][j + 1] === "-" &&
-          grid[i][j + 2] === "-"
-        ) {
-          grid[i][j] = c;
-          grid[i][j + 1] = c;
-          grid[i][j + 2] = c;
-        } else {
-          callFunction();
-          displayOutput();
+        else {
+            console.log(`${message.RIGHT_COORDINATE}`);
+            if (flag === "user") {
+                gameSetup();
+            } else {
+                enemy(c, grid);
+            }
         }
-      }
     }
-  }
 }
-//=================
+
+
+//vertically ship view 
+function placeCharacterVertical(x, y, c, grid, flag) {
+    //Up
+    let upDownShipPosition = readlineSync.question(`${message.UP_DOWN}`);
+    if (upDownShipPosition.toLowerCase() === "up" && upDownShipPosition.toLowerCase() !== "down" && upDownShipPosition.toLowerCase() !== "") {
+        if (parseInt(x) !== 0 && parseInt(x) !== 1) {
+            if (grid[parseInt(x)][parseInt(y)] === "-" && grid[parseInt(x) - 1][parseInt(y)] === "-" && grid[parseInt(x) - 2][parseInt(y)] === "-") {
+                grid[parseInt(x)][parseInt(y)] = c;
+                grid[parseInt(x) - 1][parseInt(y)] = c;
+                grid[parseInt(x) - 2][parseInt(y)] = c;
+            }
+        } else {
+            console.log(`${message.UP_COORDINATE}`);
+            if (flag === "user") {
+                gameSetup();
+            } else {
+                enemy(c, grid);
+            }
+        }
+    } else {
+        //down
+        if (parseInt(x) !== 6 && parseInt(x) !== 7) {
+            if (grid[parseInt(x)][parseInt(y)] === "-" && grid[parseInt(x) + 1][parseInt(y)] === "-" && grid[parseInt(x) + 2][parseInt(y)] === "-" && grid[parseInt(x)][parseInt(y)] !== "" && grid[parseInt(x) + 1][parseInt(y)] !== "" && grid[parseInt(x) + 2][parseInt(y)] !== "") {
+                grid[parseInt(x)][parseInt(y)] = c;
+                grid[parseInt(x) + 1][parseInt(y)] = c;
+                grid[parseInt(x) + 2][parseInt(y)] = c;
+            }
+        } else {
+            console.log(`${message.DOWN_COORDINATE}`);
+            if (flag === "user") {
+                gameSetup();
+            } else {
+                enemy(c, grid);
+            }
+        }
+    }
+}
+
+
+//enemy
+function enemy(c, grid) {
+    let didPlace = false;
+    while (!didPlace) {
+        let x = readlineSync.question(`${message.ENEMY_ROW_SHIP}`);
+        let y = readlineSync.question(`${message.ENEMY_COL_SHIP}`);
+        if (!enemyLocations[`${x}-${y}`]) {
+            if (x !== "" && y !== "") {
+                if (enemyBoardSize > x && enemyBoardSize > y) {
+                    let enemyShipView = readlineSync.question(`${message.VERTICAL_HORIZONTAL}`);
+                    if (enemyShipView.toLowerCase() === 'yes' && enemyShipView !== " " && enemyShipView.toLowerCase() !== "no") {
+                        placeCharacterVertical(x, y, c, grid, "enemy");
+                    } else {
+                        placeCharacter(x, y, c, grid, "enemy");
+                    }
+                } else {
+                    console.log(`${message.SHIP_VALUE_WRONG}`);
+                    enemy(c, grid);
+                }
+            } else {
+                console.log(`${message.SHIP_EMPTY}`);
+                enemy(c, grid);
+            }
+            didPlace = true;
+            enemyLocations[`${x}-${y}`] = true;
+        }
+
+    }
+}
+
