@@ -7,7 +7,7 @@ const message = {
     UPDOWN: "Enter whether you want to place the ship upside (PRESS U) or downside (PRESS D)---",
     RIGHLEFT: "Enter whether you want to place the ship left (PRESS L) or right (PRESS R) side---",
     USERONEBOARD: "USER ONE BOARD",
-    USERTWOBOARD: "USER ONE BOARD",
+    USERTWOBOARD: "USER TWO BOARD",
     USERTWOWON: "User two won this game!!!",
     USERONEWON: "User one won this game!!!",
     SHIPNOTPLACED: "Invalid value, ship can't be placed here",

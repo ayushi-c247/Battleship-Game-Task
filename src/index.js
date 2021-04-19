@@ -122,18 +122,30 @@ if (userOneHitCount < userTwoHitCount) {
 
 //Placing ship on both the boards either in vertical or horizontal direction
 function placeCharacter(x, y, c, grid, user) {
+ 
+while (x === "" || y === "") {
+    x = readline.question(
+      `${message.ROWSHIP}---player2-->>`
+    );
+    y = readline.question(
+      `${message.COLSHIP}---player2-->>`
+    );
+  }
   let i = parseInt(x);
-  let j = parseInt(y);
+console.log(i)
 
-  if (i > 7 && j > 7) {
+let j = parseInt(y);
+console.log(j)
+  if (i > 7 ||
+     j > 7) {
     console.log(`${message.INVAILIDCOORDINATE}`);
     // process.exit(0);
     console.log("=======================", user)
     x = readline.question(
-      `${message.ROWSHIP}`
+      `${message.ROWSHIP}---player2-->>`
     );
     y = readline.question(
-      `${message.COLSHIP}`
+      `${message.COLSHIP}---player2-->>`
     );
     if (grid === userOneBoard) placeCharacter(x, y, 'O', userOneBoard, user = "player1");
     else placeCharacter(x, y, 'O', userTwoBoard, user = "player2");
@@ -199,7 +211,7 @@ function placeCharacter(x, y, c, grid, user) {
     }
     //==============
     //for horizontal
-    if (vertOrHorz === "H" || vertOrHorz === "h") {
+    if (vertOrHorz === "H" || vertOrHorz === "h" ) {
       let side = readline.question(
         `${message.RIGHLEFT}`
       );
