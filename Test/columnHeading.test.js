@@ -3,9 +3,6 @@ const expect = require('chai').expect;
 const columnHeading = require('../src/utils/columnHeading');
 module.exports = () => {
   describe('columnHeading() function', () => {
-    // beforeEach(function () {
-    //   this.sinon.stub(console, 'log');
-    // });
     it('should exist', () => {
       expect(columnHeading).to.exist;
     });
